@@ -35,3 +35,18 @@ steps:
 # Push the NuGet package to Azure Artifacts (source feed URL)
 - script: dotnet nuget push $(Build.ArtifactStagingDirectory)\nupkgs\*.nupkg --source "https://pkgs.dev.azure.com/nimani3/Lab4/_packaging/Lab4/nuget/v3/index.json" --api-key AzureArtifacts
   displayName: 'Push to Azure Artifacts'
+
+  # Step 1: Download the Showcase artifact (NuGet package)
+- task: DownloadPackage@0
+  inputs:
+    packageType: 'NuGet'
+    feed: 'https://pkgs.dev.azure.com/nimani3/Lab4/_packaging/Lab4/nuget/v3/index.json'  # Your feed URL
+    package: 'Showcase'  # The name of the package you want to download
+    version: '1.0.0'  # Specify the version or use a variable for dynamic versioning
+    downloadPath: '$(Pipeline.Workspace)/Showcase'  # Folder to download to
+
+# Step 2: Run the Showcase Console App (assuming it's a .NET Core app)
+- script: |
+    echo "Running Showcase Console App from Artifact..."
+    dotnet $(Pipeline.Workspace)/Showcase/Showcase.dll  # Adjust path if necessary
+  displayName: 'Run Showcase Console App'
