@@ -17,15 +17,15 @@ steps:
     version: '8.0.x'
 
 # Restore dependencies (pointing to the solution file location)
-- script: dotnet restore ./Lab4/ClassLibraryProjects.sln
+- script: dotnet restore .\Lab4\ClassLibraryProjects.sln
   displayName: 'Restore dependencies'
 
 # Build the solution (pointing to the solution file location)
-- script: dotnet build ./Lab4/ClassLibraryProjects.sln --configuration $(buildConfiguration)
+- script: dotnet build .\Lab4\ClassLibraryProjects.sln --configuration $(buildConfiguration)
   displayName: 'Build project'
 
 # Pack the NuGet package (pointing to the solution file location)
-- script: dotnet pack ./Lab4/ClassLibraryProjects.sln --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/nupkgs
+- script: dotnet pack .\Lab4\ClassLibraryProjects.sln --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)\nupkgs
   displayName: 'Pack NuGet package'
 
 # Authenticate with Azure Artifacts
@@ -33,6 +33,5 @@ steps:
   displayName: 'Authenticate with Azure Artifacts'
 
 # Push the NuGet package to Azure Artifacts (source feed URL)
-- script: dotnet nuget push $(Build.ArtifactStagingDirectory)/nupkgs/*.nupkg --source "https://pkgs.dev.azure.com/nimani3/Lab4/_packaging/Lab4/nuget/v3/index.json" --api-key AzureArtifacts
+- script: dotnet nuget push $(Build.ArtifactStagingDirectory)\nupkgs\*.nupkg --source "https://pkgs.dev.azure.com/nimani3/Lab4/_packaging/Lab4/nuget/v3/index.json" --api-key AzureArtifacts
   displayName: 'Push to Azure Artifacts'
-
