@@ -33,5 +33,6 @@ steps:
   displayName: 'Authenticate with Azure Artifacts'
 
 # Push the NuGet package to Azure Artifacts (source feed URL)
-- script: dotnet nuget push ./nupkgs/*.nupkg --source "https://pkgs.dev.azure.com/nimani3/Lab4/_packaging/Lab4/nuget/v3/index.json" --api-key AzureArtifacts
+- script: dotnet nuget push $(Build.ArtifactStagingDirectory)/nupkgs/*.nupkg --source "https://pkgs.dev.azure.com/nimani3/Lab4/_packaging/Lab4/nuget/v3/index.json" --api-key AzureArtifacts
   displayName: 'Push to Azure Artifacts'
+
