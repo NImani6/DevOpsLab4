@@ -1,0 +1,30 @@
+trigger:
+  branches:
+    include:
+      - main
+
+pool:
+  name: 'Self-hosted'  # Must match the name of your agent pool
+
+variables:
+  buildConfiguration: 'Release'
+
+steps:
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: '8.0.x'
+
+- script: dotnet restore
+  displayName: 'Restore dependencies'
+
+- script: dotnet build --configuration $(buildConfiguration)
+  displayName: 'Build project'
+
+- script: dotnet pack --configuration $(buildConfiguration) --output ./nupkgs
+  displayName: 'Pack NuGet package'
+
+- task: NuGetAuthenticate@1
+
+- script: dotnet nuget push ./nupkgs/*.nupkg --source "https://pkgs.dev.azure.com/nimani3/Lab4/_packaging/Lab4/nuget/v3/index.json" --api-key AzureArtifacts
+  displayName: 'Push to Azure Artifacts'
