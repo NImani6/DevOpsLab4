@@ -25,7 +25,7 @@ steps:
   displayName: 'Build project'
 
 # Pack the NuGet package (pointing to the solution file location)
-- script: dotnet pack ./Lab4/ClassLibraryProjects.sln --configuration $(buildConfiguration) --output ./nupkgs
+- script: dotnet pack ./Lab4/ClassLibraryProjects.sln --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/nupkgs
   displayName: 'Pack NuGet package'
 
 # Authenticate with Azure Artifacts
